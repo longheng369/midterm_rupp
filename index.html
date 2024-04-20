@@ -1,0 +1,179 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline Website</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Offline Website</h1>
+    <p>This is an offline website example.</p>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+          console.log('Service Worker registration successful with scope: ', registration.scope);
+        }).catch(function(err) {
+          console.log('Service Worker registration failed: ', err);
+        });
+      });
+    }
+  </script>
+</body>
+</html> -->
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline Task Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Offline Task Manager</h1>
+    <div>
+      <input type="text" id="taskInput" placeholder="Enter a new task...">
+      <button onclick="addTask()">Add Task</button>
+    </div>
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+          console.log('Service Worker registration successful with scope: ', registration.scope);
+        }).catch(function(err) {
+          console.log('Service Worker registration failed: ', err);
+        });
+      });
+    }
+
+    function addTask() {
+      var taskInput = document.getElementById('taskInput');
+      var taskList = document.getElementById('taskList');
+
+      var taskContent = taskInput.value.trim();
+      if (taskContent !== '') {
+        var taskItem = document.createElement('li');
+        taskItem.textContent = taskContent;
+        taskList.appendChild(taskItem);
+
+        taskInput.value = '';
+
+        // Save tasks to local storage
+        var savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        savedTasks.push(taskContent);
+        localStorage.setItem('tasks', JSON.stringify(savedTasks));
+      }
+    }
+
+    window.onload = function() {
+      // Load saved tasks from local storage
+      var savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+      var taskList = document.getElementById('taskList');
+
+      savedTasks.forEach(function(taskContent) {
+        var taskItem = document.createElement('li');
+        taskItem.textContent = taskContent;
+        taskList.appendChild(taskItem);
+      });
+    };
+  </script>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline Task Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Offline Task Manager</h1>
+    <div>
+      <input type="text" id="taskInput" placeholder="Enter a new task...">
+      <button onclick="addTask()">Add Task</button>
+    </div>
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+          console.log('Service Worker registration successful with scope: ', registration.scope);
+        }).catch(function(err) {
+          console.log('Service Worker registration failed: ', err);
+        });
+      });
+    }
+
+    function addTask() {
+      var taskInput = document.getElementById('taskInput');
+      var taskList = document.getElementById('taskList');
+
+      var taskContent = taskInput.value.trim();
+      if (taskContent !== '') {
+        var taskItem = document.createElement('li');
+        taskItem.textContent = taskContent;
+
+        var deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = function() {
+          taskList.removeChild(taskItem);
+          updateLocalStorage();
+        };
+
+        taskItem.appendChild(deleteButton);
+        taskList.appendChild(taskItem);
+
+        taskInput.value = '';
+        updateLocalStorage();
+      }
+    }
+
+    function updateLocalStorage() {
+      var taskList = document.getElementById('taskList');
+      var tasks = Array.from(taskList.getElementsByTagName('li')).map(function(taskItem) {
+        return taskItem.textContent;
+      });
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    window.onload = function() {
+      // Load saved tasks from local storage
+      var savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+      var taskList = document.getElementById('taskList');
+
+      savedTasks.forEach(function(taskContent) {
+        var taskItem = document.createElement('li');
+        taskItem.textContent = taskContent;
+
+        var deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = function() {
+          taskList.removeChild(taskItem);
+          updateLocalStorage();
+        };
+
+        taskItem.appendChild(deleteButton);
+        taskList.appendChild(taskItem);
+      });
+    };
+  </script>
+</body>
+</html>
+
